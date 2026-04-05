@@ -18,7 +18,7 @@ body {
     position: relative;
     min-height: 100vh;
 }
-/* 你的背景图 + 75% 透明度 */
+/* 已修复：你的背景图 + 直链 + 75%透明度 */
 body::before {
     content: '';
     position: fixed;
@@ -26,7 +26,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://imgloc.com/i/ZQT0c0');
+    background-image: url('https://i.imgs.ovh/2026/04/06/ZQT0c0.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -94,13 +94,14 @@ body::before {
 }
 .modal-content {
     background: white;
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     padding: 30px;
     border-radius: 16px;
     position: relative;
+    line-height: 1.8;
 }
 .close {
     position: absolute;
@@ -111,17 +112,18 @@ body::before {
     color: #666;
 }
 .detail-title {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 26px;
+    margin-bottom: 24px;
     color: #111;
+    text-align: center;
+    font-weight: bold;
 }
 .detail-section {
     margin-bottom: 16px;
-    line-height: 1.8;
     font-size: 16px;
 }
 .detail-section strong {
-    font-size: 16px;
+    font-size: 17px;
     color: #222;
 }
 .empty-tip {
@@ -129,6 +131,16 @@ body::before {
     font-size: 18px;
     color: #666;
     padding: 60px 0;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 16px;
+}
+td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
 }
 </style>
 </head>
@@ -193,9 +205,7 @@ const books = [
     full: "empty"
 },
 
-// ======================
 // 景德传灯录 1
-// ======================
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -203,32 +213,71 @@ const books = [
     version: "元延祐丙辰湖州禅幽庵僧人希渭刊本",
     original: "原三菱财团岩崎氏家等旧藏",
     current: "东洋文库藏本",
-    full: `
-<div class="detail-section"><strong>类型：</strong>灯录</div>
-<div class="detail-section"><strong>名称：</strong>《景德传灯录》</div>
-<div class="detail-section"><strong>别称：</strong>《佛祖同参集》</div>
-<div class="detail-section"><strong>作者：</strong>道原</div>
-<div class="detail-section"><strong>成书年代：</strong>景德三年（1006年）</div>
-<div class="detail-section"><strong>传日日期：</strong>熙宁-元丰、淳祐</div>
-<hr style="margin:20px 0;border-top:1px solid #eee">
-<div class="detail-section"><strong>一、史籍基本信息</strong></div>
-<div class="detail-section">《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section" style="margin-top:16px"><strong>二、作者信息</strong></div>
-<div class="detail-section">道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section" style="margin-top:16px"><strong>三、成书年代</strong></div>
-<div class="detail-section">景德三年。据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”</div>
-<div class="detail-section" style="margin-top:16px"><strong>四、传日时间</strong></div>
-<div class="detail-section">无准确时间，据史料为：熙宁-元丰年间、淳祐年间。<br>据《参天台五台山记》记载，日本延历寺阿暗梨成寻于1072年入宋，携归经藏中有《景德传灯录》；1241年圣一国师圆尔辩圆自宋归，亦携归此籍。</div>
-<div class="detail-section" style="margin-top:16px"><strong>五、中日汉文大藏经收录细目（部分）</strong></div>
-<div class="detail-section">【崇宁藏】No.1270《景德传灯录》30卷<br>【毗卢藏】No.1271 宋道原纂<br>【赵城金藏】No.1507 30卷<br>【碛砂藏】No.1292 宋道原纂 30卷<br>【普宁藏】【至元录】【洪武南藏】【永乐南藏】【永乐北藏】【嘉兴藏】【乾隆藏】【缩刻藏】【卍正藏】【大正藏】【中华藏】均有收录。</div>
-<div class="detail-section" style="margin-top:16px"><strong>六、参考文献</strong></div>
-<div class="detail-section">【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>
-`
+    full: `<div class="detail-title">《景德传灯录》</div>
+<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
+<table>
+<tr><td>类型</td><td>灯录</td></tr>
+<tr><td>名称</td><td>《景德传灯录》</td></tr>
+<tr><td>别称</td><td>《佛祖同参集》</td></tr>
+<tr><td>作者</td><td>道原</td></tr>
+<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
+<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
+<tr><td>相关记载</td><td>有</td></tr>
+<tr><td>参考文献</td><td>有</td></tr>
+</table>
+
+<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
+
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>
+《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+
+<div class="detail-section"><strong>（二）作者信息：</strong><br>
+道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+
+<div class="detail-section"><strong>（三）成书年代：</strong><br>
+景德三年<br>
+相关史料：<br>
+据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”可知释道原《景德传灯录》于宋真宗在位第九年，即景德三年（1006）书成诣阙上进。</div>
+
+<div class="detail-section"><strong>（四）传日时间：</strong><br>
+无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>
+相关史料：<br>
+据《参天台五台山记》的记载，日本延历寺阿暗梨成寻于后三条延久四年(1072年)由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年(1081年)卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。四条天皇仁治二年(1241年)日本东福寺开山圣一国师圆尔辩圆自中国归，携回汉籍内外文献数千卷。1353年东福寺第二十八世大道一以据圣一国师藏书编纂成《普门院经论章疏语录儒书等目录》。其“宿部”着录《传灯录》一部三十册;其“张部”著录《传灯录》一部五册。</div>
+
+<div class="detail-section"><strong>（五）相关记载：</strong><br>
+1. 中日汉文大藏经收录细目</div>
+
+<table>
+<tr><td>【崇宁藏】</td><td>No.1270《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
+<tr><td>【毘卢藏】</td><td>No.1271《景德传灯录》宋道原纂 千字文：振(511)-世(513)</td></tr>
+<tr><td>【赵城金藏】</td><td>No.1507《景德传灯录》 卷数：30 千字文：禅-云</td></tr>
+<tr><td>【碛砂藏】</td><td>No.1292《景德传灯录》宋 道原纂 册数：33 / 页数：301 / 卷数：30</td></tr>
+<tr><td>【普宁藏】</td><td>No.1285《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
+<tr><td>【至元录】</td><td>No.1642《景德传灯录》沙门道源纂 卷数：30</td></tr>
+<tr><td>【洪武南藏】</td><td>No.1144《景德传灯录》僧道原 纂 册数：183-184 / 页数：262 / 卷数：30</td></tr>
+<tr><td>【永乐南藏】</td><td>No.1507《景德傅灯录》 部别：此方撰述</td></tr>
+<tr><td>【永乐北藏】</td><td>No.1596《景德传灯录》宋道源纂 部别：此土著述 册数：153-154</td></tr>
+<tr><td>【嘉兴藏】</td><td>No.1516《景德传灯录》宋道源纂 部别：此土著述</td></tr>
+<tr><td>【乾隆藏】</td><td>No.1584《景德传灯录》宋 道原纂 部别：此土著述 册数：136</td></tr>
+<tr><td>【缩刻藏】</td><td>No.1791《景德传灯录》宋道原纂 部别：支那撰述-诸宗部-禅宗</td></tr>
+<tr><td>【卍正藏】</td><td>No.1531《景德传灯录》宋 道原纂 部别：此土著述 册数：58</td></tr>
+<tr><td>【大正藏】</td><td>No.2076《景德传灯录》宋 道原纂 部别：史传部三 册数：51</td></tr>
+<tr><td>【佛教大藏經】</td><td>No.1990《景德传灯录》宋 道原纂 部别：诸宗部三 禅宗 册数：70-71</td></tr>
+<tr><td>【中華藏】</td><td>No.1683《景德传灯录》僧道原纂 册数：74 底本：金藏广胜寺本</td></tr>
+</table>
+
+<div class="detail-section"><strong>（六）参考文献：</strong><br>
+【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>
+【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>
+【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>
+【4】脱脱等撰, 中华书局编辑部点校, 《宋史》, 北京: 中华书局, 1985年。<br>
+【5】陈垣《中国佛教史籍概论》, 上海书店出版社, 1999年, 第74页。<br>
+【6】严绍璗《日藏汉籍善本书录》, 北京:中华书局, 2007年。<br>
+【7】[日]石井修道《宋代禅籍逸书序跋考》, 《驹泽大学佛教学部论集》第8卷, 1977年。<br>
+【8】[日]释成寻原著, 白化文, 李鼎霞校点,《参天台五台山记》, 石家庄:花山文艺出版社, 2008年。</div>`
 },
 
-// ======================
 // 景德传灯录 2
-// ======================
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -236,25 +285,25 @@ const books = [
     version: "元至正二十五年天童景德禅寺重刊本",
     original: "原神田鬯庵（喜一郎）等旧藏",
     current: "大谷大学附属图书馆藏本",
-    full: `
-<div class="detail-section"><strong>类型：</strong>灯录</div>
-<div class="detail-section"><strong>名称：</strong>《景德传灯录》</div>
-<div class="detail-section"><strong>别称：</strong>《佛祖同参集》</div>
-<div class="detail-section"><strong>作者：</strong>道原</div>
-<div class="detail-section"><strong>成书年代：</strong>景德三年（1006年）</div>
-<div class="detail-section"><strong>传日日期：</strong>熙宁-元丰、淳祐</div>
-<hr style="margin:20px 0;border-top:1px solid #eee">
-<div class="detail-section">《景德传灯录》由北宋苏州承天寺僧人释道原编撰，为禅宗首部灯录体著作，经杨亿勘定、敕入大藏经。</div>
-<div class="detail-section" style="margin-top:16px">本条目版本为：元至正二十五年天童景德禅寺重刊本。</div>
-<div class="detail-section" style="margin-top:16px"><strong>一、史籍基本信息</strong></div>
-<div class="detail-section">《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section" style="margin-top:16px"><strong>二、作者信息</strong></div>
-<div class="detail-section">道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section" style="margin-top:16px"><strong>三、成书年代</strong></div>
-<div class="detail-section">景德三年。据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”</div>
-<div class="detail-section" style="margin-top:16px"><strong>四、传日时间</strong></div>
-<div class="detail-section">无准确时间，据史料为：熙宁-元丰年间、淳祐年间。<br>据《参天台五台山记》记载，日本延历寺阿暗梨成寻于1072年入宋，携归经藏中有《景德传灯录》；1241年圣一国师圆尔辩圆自宋归，亦携归此籍。</div>
-`
+    full: `<div class="detail-title">《景德传灯录》</div>
+<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
+<table>
+<tr><td>类型</td><td>灯录</td></tr>
+<tr><td>名称</td><td>《景德传灯录》</td></tr>
+<tr><td>别称</td><td>《佛祖同参集》</td></tr>
+<tr><td>作者</td><td>道原</td></tr>
+<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
+<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
+<tr><td>相关记载</td><td>有</td></tr>
+<tr><td>参考文献</td><td>有</td></tr>
+</table>
+<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年</div>
+<div class="detail-section"><strong>（四）传日时间：</strong><br>熙宁-元丰年间、淳祐年间</div>
+<div class="detail-section"><strong>（五）相关记载：</strong><br>中日汉文大藏经均有收录</div>
+<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>`
 },
 
 {
@@ -303,9 +352,7 @@ const books = [
     full: "empty"
 },
 
-// ======================
 // 景德传灯录 3
-// ======================
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -313,30 +360,35 @@ const books = [
     version: "明万历三十四年贺学礼刊本",
     original: "原枫山官库等旧藏",
     current: "内阁文库藏本",
-    full: `
-<div class="detail-section"><strong>类型：</strong>灯录</div>
-<div class="detail-section"><strong>名称：</strong>《景德传灯录》</div>
-<div class="detail-section"><strong>别称：</strong>《佛祖同参集》</div>
-<div class="detail-section"><strong>作者：</strong>道原</div>
-<div class="detail-section"><strong>成书年代：</strong>景德三年（1006年）</div>
-<hr style="margin:20px 0;border-top:1px solid #eee">
-<div class="detail-section">本条目版本为：明万历三十四年贺学礼刊本。</div>
-<div class="detail-section" style="margin-top:16px">《景德传灯录》为禅宗第一部灯录，记载禅宗世系与机缘语句，是研究宋代禅宗最核心文献之一。</div>
-<div class="detail-section" style="margin-top:16px"><strong>一、史籍基本信息</strong></div>
-<div class="detail-section">《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section" style="margin-top:16px"><strong>二、作者信息</strong></div>
-<div class="detail-section">道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section" style="margin-top:16px"><strong>三、成书年代</strong></div>
-<div class="detail-section">景德三年。据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”</div>
-<div class="detail-section" style="margin-top:16px"><strong>四、传日时间</strong></div>
-<div class="detail-section">无准确时间，据史料为：熙宁-元丰年间、淳祐年间。<br>据《参天台五台山记》记载，日本延历寺阿暗梨成寻于1072年入宋，携归经藏中有《景德传灯录》；1241年圣一国师圆尔辩圆自宋归，亦携归此籍。</div>
-`
+    full: `<div class="detail-title">《景德传灯录》</div>
+<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
+<table>
+<tr><td>类型</td><td>灯录</td></tr>
+<tr><td>名称</td><td>《景德传灯录》</td></tr>
+<tr><td>别称</td><td>《佛祖同参集》</td></tr>
+<tr><td>作者</td><td>道原</td></tr>
+<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
+<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
+<tr><td>相关记载</td><td>有</td></tr>
+<tr><td>参考文献</td><td>有</td></tr>
+</table>
+<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年</div>
+<div class="detail-section"><strong>（四）传日时间：</strong><br>熙宁-元丰年间、淳祐年间</div>
+<div class="detail-section"><strong>（五）相关记载：</strong><br>中日汉文大藏经均有收录</div>
+<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>`
 }
 ];
 
+// 全局保存搜索结果
+let currentResult = [];
+
 function render(list) {
+    currentResult = list;
     const box = document.getElementById('list');
-    box.innerHTML = list.map((b,i) => `
+    box.innerHTML = list.map((b, i) => `
     <div class="book-item" onclick="openDetail(${i})">
         <div class="book-title">${b.name}</div>
         <div class="book-info">${b.author}｜${b.version}</div>
@@ -356,8 +408,9 @@ function search() {
     render(res);
 }
 
-function openDetail(index) {
-    const b = books[index];
+// 已修复：搜索后也能正确打开详情
+function openDetail(i) {
+    const b = currentResult[i];
     if (b.full === "empty") {
         document.getElementById('detail').innerHTML = `
             <div class="detail-title">${b.name}</div>
