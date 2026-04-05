@@ -3,89 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>古籍史籍收藏查询系统</title>
+<title>中国佛教史籍在日本的流传与演变</title>
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Microsoft YaHei", sans-serif;
 }
+
+/* 全局背景 */
 body {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 0;
     position: relative;
     min-height: 100vh;
+    background: #f7f7f7;
 }
-/* 已修复：你的背景图 + 直链 + 75%透明度 */
 body::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background-image: url('https://i.imgs.ovh/2026/04/06/ZQT0c0.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     opacity: 0.75;
     z-index: -1;
 }
-.page-title {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 30px;
-    color: #222;
-    text-shadow: 0 2px 4px rgba(255,255,255,0.8);
-}
-.search-box {
+
+/* ———— 顶部藏青色导航栏 ———— */
+.nav {
     width: 100%;
-    padding: 16px 20px;
-    font-size: 17px;
-    border: none;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    position: sticky;
-    top: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    z-index: 10;
+    height: 56px;
+    background: #1a4966; /* 藏青色 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 9999;
 }
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 导航按钮 */
+.nav-btn {
+    padding: 10px 16px;
+    color: white;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.nav-btn:hover {
+    background: white;
+    color: #1a4966;
+}
+
+/* 浏览下拉菜单 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 46px; left: 0;
+    background: white;
+    min-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 99999;
+}
+.dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+}
+.dropdown-content a:hover {
+    background: #eee;
+}
+.show { display: block; }
+
+/* 页面主体（居中搜索框） */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+}
+
+/* 标题 */
+.page-title {
+    font-size: 26px;
+    margin-bottom: 40px;
+    color: #222;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* 搜索框 */
+.search-box {
+    width: 90%;
+    max-width: 620px;
+    padding: 18px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    outline: none;
+    text-align: center;
+}
+
+/* 书籍列表（默认隐藏，搜索后显示） */
 .book-container {
-    display: grid;
-    gap: 20px;
+    width: 90%;
+    max-width: 700px;
+    margin-top: 30px;
+    display: none;
+    gap: 16px;
 }
 .book-item {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255,255,255,0.92);
     border-radius: 12px;
-    padding: 22px;
+    padding: 20px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: 0.2s;
 }
 .book-item:hover {
     transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 .book-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #1a1a1a;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #1a4966;
 }
 .book-info {
-    font-size: 15px;
-    color: #444;
-    line-height: 1.6;
+    font-size: 14px;
+    color: #555;
 }
 
+/* 详情弹窗 */
 .modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0,0,0,0.6);
     z-index: 999;
     align-items: center;
@@ -94,9 +173,9 @@ body::before {
 }
 .modal-content {
     background: white;
-    max-width: 900px;
+    max-width: 800px;
     width: 100%;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-y: auto;
     padding: 30px;
     border-radius: 16px;
@@ -105,52 +184,123 @@ body::before {
 }
 .close {
     position: absolute;
-    top: 20px;
-    right: 24px;
+    top: 20px; right: 24px;
     font-size: 24px;
     cursor: pointer;
     color: #666;
 }
 .detail-title {
-    font-size: 26px;
-    margin-bottom: 24px;
-    color: #111;
+    font-size: 24px;
+    margin-bottom: 20px;
     text-align: center;
     font-weight: bold;
 }
 .detail-section {
-    margin-bottom: 16px;
-    font-size: 16px;
-}
-.detail-section strong {
-    font-size: 17px;
-    color: #222;
-}
-.empty-tip {
-    text-align: center;
-    font-size: 18px;
-    color: #666;
-    padding: 60px 0;
+    margin-bottom: 14px;
+    font-size: 15px;
 }
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 10px 0;
-    font-size: 16px;
 }
 td {
     border: 1px solid #ddd;
     padding: 8px 12px;
+    font-size: 15px;
+}
+.empty-tip {
+    text-align: center;
+    padding: 40px 0;
+    color: #888;
+}
+
+/* 公告弹窗 */
+#noticeModal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.noticeBox {
+    background: white;
+    max-width: 550px;
+    width: 100%;
+    padding: 40px 30px;
+    border-radius: 16px;
+    text-align: center;
+}
+.noticeTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #c0392b;
+}
+.noticeText {
+    font-size: 17px;
+    margin-bottom: 28px;
+    line-height: 1.7;
+}
+.noticeBtn {
+    background: #1a4966;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.noticeBtn:hover {
+    background: #0f3247;
 }
 </style>
 </head>
 
 <body>
-<h1 class="page-title">古籍史籍收藏查询系统</h1>
-<input class="search-box" id="search" placeholder="搜索书名、作者、版本、藏地..." oninput="search()">
-<div class="book-container" id="list"></div>
 
-<div id="modal" class="modal" onclick="if(event.target===this) closeModal()">
+<!-- 顶部导航栏 -->
+<div class="nav">
+    <div class="nav-left">
+        <div class="dropdown">
+            <button class="nav-btn" onclick="toggleMenu()">浏览</button>
+            <div id="menuList" class="dropdown-content">
+                <a href="#">检索</a>
+                <a href="#">图集</a>
+                <a href="#">公告</a>
+                <a href="#">更多</a>
+            </div>
+        </div>
+    </div>
+    <div class="nav-right">
+        <button class="nav-btn">检索</button>
+        <button class="nav-btn">图集</button>
+        <button class="nav-btn">公告</button>
+    </div>
+</div>
+
+<!-- 首页居中搜索框 -->
+<div class="container">
+    <div class="page-title">中国佛教史籍在日本的流传与演变</div>
+    <input class="search-box" id="search" placeholder="输入书名/作者/藏地检索..." oninput="search()">
+    <div class="book-container" id="list"></div>
+</div>
+
+<!-- 公告弹窗 -->
+<div id="noticeModal">
+    <div class="noticeBox">
+        <div class="noticeTitle">数据库公告</div>
+        <div class="noticeText">数据库测试中，通过搜索/点击《景德传灯录》进行体验</div>
+        <button class="noticeBtn" onclick="closeNotice()">我已知悉</button>
+    </div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="detail"></div>
@@ -158,6 +308,23 @@ td {
 </div>
 
 <script>
+// 关闭公告
+function closeNotice() {
+    document.getElementById("noticeModal").style.display = "none";
+}
+
+// 浏览菜单展开/关闭
+function toggleMenu() {
+    document.getElementById("menuList").classList.toggle("show");
+}
+window.onclick = function(e) {
+    if (!e.target.matches('.nav-btn')) {
+        let menu = document.getElementById("menuList");
+        if (menu.classList.contains('show')) menu.classList.remove('show');
+    }
+}
+
+// 书籍数据
 const books = [
 {
     name: "法显传",
@@ -204,8 +371,6 @@ const books = [
     current: "御茶之水图书馆藏本",
     full: "empty"
 },
-
-// 景德传灯录 1
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -225,59 +390,32 @@ const books = [
 <tr><td>相关记载</td><td>有</td></tr>
 <tr><td>参考文献</td><td>有</td></tr>
 </table>
-
 <div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
-
-<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>
-《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-
-<div class="detail-section"><strong>（二）作者信息：</strong><br>
-道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-
-<div class="detail-section"><strong>（三）成书年代：</strong><br>
-景德三年<br>
-相关史料：<br>
-据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”可知释道原《景德传灯录》于宋真宗在位第九年，即景德三年（1006）书成诣阙上进。</div>
-
-<div class="detail-section"><strong>（四）传日时间：</strong><br>
-无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>
-相关史料：<br>
-据《参天台五台山记》的记载，日本延历寺阿暗梨成寻于后三条延久四年(1072年)由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年(1081年)卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。四条天皇仁治二年(1241年)日本东福寺开山圣一国师圆尔辩圆自中国归，携回汉籍内外文献数千卷。1353年东福寺第二十八世大道一以据圣一国师藏书编纂成《普门院经论章疏语录儒书等目录》。其“宿部”着录《传灯录》一部三十册;其“张部”著录《传灯录》一部五册。</div>
-
-<div class="detail-section"><strong>（五）相关记载：</strong><br>
-1. 中日汉文大藏经收录细目</div>
-
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年<br>相关史料：<br>据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”</div>
+<div class="detail-section"><strong>（四）传日时间：</strong><br>无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>相关史料：<br>据《参天台五台山记》记载，日本延历寺阿闍梨成寻于后三条延久四年（1072年）由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年（1081年）卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。</div>
+<div class="detail-section"><strong>（五）相关记载：</strong><br>1. 中日汉文大藏经收录细目</div>
 <table>
 <tr><td>【崇宁藏】</td><td>No.1270《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
-<tr><td>【毘卢藏】</td><td>No.1271《景德传灯录》宋道原纂 千字文：振(511)-世(513)</td></tr>
+<tr><td>【毗卢藏】</td><td>No.1271《景德传灯录》宋道原纂 千字文：振(511)-世(513)</td></tr>
 <tr><td>【赵城金藏】</td><td>No.1507《景德传灯录》 卷数：30 千字文：禅-云</td></tr>
 <tr><td>【碛砂藏】</td><td>No.1292《景德传灯录》宋 道原纂 册数：33 / 页数：301 / 卷数：30</td></tr>
 <tr><td>【普宁藏】</td><td>No.1285《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
 <tr><td>【至元录】</td><td>No.1642《景德传灯录》沙门道源纂 卷数：30</td></tr>
 <tr><td>【洪武南藏】</td><td>No.1144《景德传灯录》僧道原 纂 册数：183-184 / 页数：262 / 卷数：30</td></tr>
-<tr><td>【永乐南藏】</td><td>No.1507《景德傅灯录》 部别：此方撰述</td></tr>
+<tr><td>【永乐南藏】</td><td>No.1507《景德传灯录》 部别：此方撰述</td></tr>
 <tr><td>【永乐北藏】</td><td>No.1596《景德传灯录》宋道源纂 部别：此土著述 册数：153-154</td></tr>
 <tr><td>【嘉兴藏】</td><td>No.1516《景德传灯录》宋道源纂 部别：此土著述</td></tr>
 <tr><td>【乾隆藏】</td><td>No.1584《景德传灯录》宋 道原纂 部别：此土著述 册数：136</td></tr>
 <tr><td>【缩刻藏】</td><td>No.1791《景德传灯录》宋道原纂 部别：支那撰述-诸宗部-禅宗</td></tr>
 <tr><td>【卍正藏】</td><td>No.1531《景德传灯录》宋 道原纂 部别：此土著述 册数：58</td></tr>
 <tr><td>【大正藏】</td><td>No.2076《景德传灯录》宋 道原纂 部别：史传部三 册数：51</td></tr>
-<tr><td>【佛教大藏經】</td><td>No.1990《景德传灯录》宋 道原纂 部别：诸宗部三 禅宗 册数：70-71</td></tr>
-<tr><td>【中華藏】</td><td>No.1683《景德传灯录》僧道原纂 册数：74 底本：金藏广胜寺本</td></tr>
+<tr><td>【佛教大藏经】</td><td>No.1990《景德传灯录》宋 道原纂 部别：诸宗部三 禅宗 册数：70-71</td></tr>
+<tr><td>【中华藏】</td><td>No.1683《景德传灯录》僧道原纂 册数：74 底本：金藏广胜寺本</td></tr>
 </table>
-
-<div class="detail-section"><strong>（六）参考文献：</strong><br>
-【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>
-【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>
-【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>
-【4】脱脱等撰, 中华书局编辑部点校, 《宋史》, 北京: 中华书局, 1985年。<br>
-【5】陈垣《中国佛教史籍概论》, 上海书店出版社, 1999年, 第74页。<br>
-【6】严绍璗《日藏汉籍善本书录》, 北京:中华书局, 2007年。<br>
-【7】[日]石井修道《宋代禅籍逸书序跋考》, 《驹泽大学佛教学部论集》第8卷, 1977年。<br>
-【8】[日]释成寻原著, 白化文, 李鼎霞校点,《参天台五台山记》, 石家庄:花山文艺出版社, 2008年。</div>`
+<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>【4】脱脱等撰,中华书局编辑部点校,《宋史》,北京:中华书局,1985年。<br>【5】陈垣《中国佛教史籍概论》,上海书店出版社,1999年,第74页。<br>【6】严绍璗《日藏汉籍善本书录》,北京:中华书局,2007年。<br>【7】[日]石井修道《宋代禅籍逸书序跋考》,《驹泽大学佛教学部论集》第8卷,1977年。<br>【8】[日]释成寻原著,白化文,李鼎霞校点,《参天台五台山记》,石家庄:花山文艺出版社,2008年。</div>`
 },
-
-// 景德传灯录 2
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -305,7 +443,6 @@ const books = [
 <div class="detail-section"><strong>（五）相关记载：</strong><br>中日汉文大藏经均有收录</div>
 <div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>`
 },
-
 {
     name: "禅林僧宝传",
     detail: "《禅林僧宝传》（残本）七卷",
@@ -317,7 +454,7 @@ const books = [
 },
 {
     name: "历代释氏资鉴",
-    detail: "《歷代釋氏資鑒》十二卷",
+    detail: "《历代释氏资鉴》十二卷",
     author: "(元)释熙仲編",
     version: "元后至元年间刊本",
     original: "原三菱财团岩崎氏家旧藏",
@@ -326,7 +463,7 @@ const books = [
 },
 {
     name: "六学僧传",
-    detail: "(新修科分)《六學僧傅》三十卷",
+    detail: "(新修科分)《六学僧传》三十卷",
     author: "(元)释云噩撰",
     version: "元至正二十六年胡氏刊本",
     original: "原德富苏峰成篑堂等旧藏",
@@ -335,7 +472,7 @@ const books = [
 },
 {
     name: "宗门统要",
-    detail: "(續集)《宗門統要》十二卷",
+    detail: "(续集)《宗门统要》十二卷",
     author: "(元)释清茂撰",
     version: "明刊本共十册",
     original: "原江户时代林罗山旧藏",
@@ -351,8 +488,6 @@ const books = [
     current: "东北大学附属图书馆藏本",
     full: "empty"
 },
-
-// 景德传灯录 3
 {
     name: "景德传灯录",
     detail: "《景德传灯录》三十卷",
@@ -382,13 +517,30 @@ const books = [
 }
 ];
 
-// 全局保存搜索结果
 let currentResult = [];
 
-function render(list) {
-    currentResult = list;
-    const box = document.getElementById('list');
-    box.innerHTML = list.map((b, i) => `
+// 搜索功能
+function search() {
+    let kw = document.getElementById("search").value.toLowerCase().trim();
+    let list = document.getElementById("list");
+    
+    if (!kw) {
+        list.style.display = "none";
+        currentResult = [];
+        return;
+    }
+
+    let result = books.filter(b => 
+        b.name.toLowerCase().includes(kw) ||
+        b.author.toLowerCase().includes(kw) ||
+        b.version.toLowerCase().includes(kw) ||
+        b.original.toLowerCase().includes(kw) ||
+        b.current.toLowerCase().includes(kw)
+    );
+
+    currentResult = result;
+    list.style.display = "grid";
+    list.innerHTML = result.map((b, i) => `
     <div class="book-item" onclick="openDetail(${i})">
         <div class="book-title">${b.name}</div>
         <div class="book-info">${b.author}｜${b.version}</div>
@@ -396,40 +548,20 @@ function render(list) {
     `).join('');
 }
 
-function search() {
-    const kw = document.getElementById('search').value.toLowerCase();
-    const res = books.filter(b => 
-        b.name.toLowerCase().includes(kw) || 
-        b.author.toLowerCase().includes(kw) || 
-        b.version.toLowerCase().includes(kw) ||
-        b.original.toLowerCase().includes(kw) || 
-        b.current.toLowerCase().includes(kw)
-    );
-    render(res);
-}
-
-// 已修复：搜索后也能正确打开详情
+// 打开详情
 function openDetail(i) {
-    const b = currentResult[i];
-    if (b.full === "empty") {
-        document.getElementById('detail').innerHTML = `
-            <div class="detail-title">${b.name}</div>
-            <div class="empty-tip">正在更新中……请稍候访问</div>
-        `;
-    } else {
-        document.getElementById('detail').innerHTML = `
-            <div class="detail-title">${b.name}</div>
-            ${b.full}
-        `;
-    }
-    document.getElementById('modal').style.display = "flex";
+    let b = currentResult[i];
+    let content = b.full === "empty" 
+        ? `<div class="detail-title">${b.name}</div><div class="empty-tip">内容正在完善中……</div>`
+        : `<div class="detail-title">${b.name}</div>${b.full}`;
+    document.getElementById("detail").innerHTML = content;
+    document.getElementById("modal").style.display = "flex";
 }
 
+// 关闭详情
 function closeModal() {
-    document.getElementById('modal').style.display = "none";
+    document.getElementById("modal").style.display = "none";
 }
-
-render(books);
 </script>
 </body>
 </html>
