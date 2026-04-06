@@ -5,563 +5,688 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>中国佛教史籍在日本的流传与演变</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Microsoft YaHei", sans-serif;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei", sans-serif;
+    }
+    html, body { height: 100%; }
+    body {
+        position: relative;
+        background: #f4f4f4;
+        overflow-x: hidden;
+    }
 
-/* 全局背景 */
-body {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0;
-    position: relative;
-    min-height: 100vh;
-    background: #f7f7f7;
-}
-body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-image: url('https://i.imgs.ovh/2026/04/06/ZQT0c0.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.75;
-    z-index: -1;
-}
+    /* 背景轮播 */
+    .bg-slider {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        z-index: -1;
+    }
+    .bg-slide {
+        position: absolute;
+        width: 100%; height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        animation: bgfade 24s infinite;
+    }
+    .bg-slide:nth-child(1) {
+        background-image: url('https://i.imgs.ovh/2026/04/06/ZQ3zUn.png');
+        animation-delay: 0s;
+    }
+    .bg-slide:nth-child(2) {
+        background-image: url('https://i.imgs.ovh/2026/04/06/ZQ3AWL.png');
+        animation-delay: 8s;
+    }
+    .bg-slide:nth-child(3) {
+        background-image: url('https://i.imgs.ovh/2026/04/06/ZQ38Oe.png');
+        animation-delay: 16s;
+    }
+    @keyframes bgfade {
+        0% { opacity: 0; }
+        10% { opacity: 0.8; }
+        33% { opacity: 0.8; }
+        43% { opacity: 0; }
+        100% { opacity: 0; }
+    }
 
-/* ———— 顶部藏青色导航栏 ———— */
-.nav {
-    width: 100%;
-    height: 56px;
-    background: #1a4966; /* 藏青色 */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 9999;
-}
-.nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+    /* 顶部导航 */
+    .top-nav {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 60px;
+        background: #1a3b5d;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        color: white;
+        z-index: 9999;
+    }
+    .nav-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .nav-btns {
+        display: flex;
+        gap: 16px;
+    }
+    .nav-btn {
+        color: white;
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .nav-btn:hover {
+        background: white;
+        color: #1a3b5d;
+    }
 
-/* 导航按钮 */
-.nav-btn {
-    padding: 10px 16px;
-    color: white;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.nav-btn:hover {
-    background: white;
-    color: #1a4966;
-}
+    /* 主页容器 */
+    .container {
+        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 20px;
+    }
+    .main-title {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #222;
+        text-align: center;
+    }
 
-/* 浏览下拉菜单 */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 46px; left: 0;
-    background: white;
-    min-width: 150px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 99999;
-}
-.dropdown-content a {
-    display: block;
-    padding: 12px 16px;
-    color: #333;
-    text-decoration: none;
-    border-radius: 6px;
-}
-.dropdown-content a:hover {
-    background: #eee;
-}
-.show { display: block; }
+    .search-bar {
+        width: 100%;
+        max-width: 700px;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 18px;
+        outline: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background: rgba(255,255,255,0.95);
+        text-align: center;
+    }
 
-/* 页面主体（居中搜索框） */
-.container {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 70px;
-}
+    /* 一级检索：书名列表 */
+    .result-level1 {
+        width: 100%;
+        max-width: 700px;
+        margin-top: 20px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .book-item {
+        background: rgba(255,255,255,0.95);
+        padding: 16px 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .book-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .book-name {
+        font-size: 19px;
+        font-weight: bold;
+        color: #1a3b5d;
+        margin-bottom: 6px;
+    }
+    .book-info {
+        font-size: 15px;
+        color: #555;
+    }
 
-/* 标题 */
-.page-title {
-    font-size: 26px;
-    margin-bottom: 40px;
-    color: #222;
-    text-align: center;
-    font-weight: bold;
-}
+    /* 二级弹窗：版本列表 */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .modal-box {
+        background: white;
+        max-width: 700px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 30px;
+        border-radius: 14px;
+        position: relative;
+    }
+    .modal-close {
+        position: absolute;
+        top: 16px; right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+    }
+    .modal-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #1a3b5d;
+    }
+    .version-item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+    .version-label {
+        font-weight: bold;
+        color: #333;
+    }
+    .to-detail-btn {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background: #1a3b5d;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
 
-/* 搜索框 */
-.search-box {
-    width: 90%;
-    max-width: 620px;
-    padding: 18px 24px;
-    font-size: 18px;
-    border: none;
-    border-radius: 50px;
-    background: rgba(255,255,255,0.95);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    outline: none;
-    text-align: center;
-}
+    /* 三级弹窗：详细信息 */
+    .detail-modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .detail-box {
+        background: white;
+        max-width: 900px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 30px;
+        border-radius: 14px;
+        position: relative;
+        line-height: 1.8;
+    }
+    .detail-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #1a3b5d;
+    }
+    .detail-section {
+        margin-bottom: 14px;
+        font-size: 16px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+    }
+    td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        font-size: 15px;
+    }
 
-/* 书籍列表（默认隐藏，搜索后显示） */
-.book-container {
-    width: 90%;
-    max-width: 700px;
-    margin-top: 30px;
-    display: none;
-    gap: 16px;
-}
-.book-item {
-    background: rgba(255,255,255,0.92);
-    border-radius: 12px;
-    padding: 20px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.book-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-}
-.book-title {
-    font-size: 19px;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: #1a4966;
-}
-.book-info {
-    font-size: 14px;
-    color: #555;
-}
+    /* 图集弹窗 */
+    .gallery-modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 1001;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .gallery-box {
+        background: white;
+        max-width: 1000px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 30px;
+        border-radius: 14px;
+        position: relative;
+        text-align: center;
+    }
+    .gallery-img {
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    .gallery-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #1a3b5d;
+    }
 
-/* 详情弹窗 */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.modal-content {
-    background: white;
-    max-width: 800px;
-    width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 30px;
-    border-radius: 16px;
-    position: relative;
-    line-height: 1.8;
-}
-.close {
-    position: absolute;
-    top: 20px; right: 24px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-}
-.detail-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-}
-.detail-section {
-    margin-bottom: 14px;
-    font-size: 15px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-}
-td {
-    border: 1px solid #ddd;
-    padding: 8px 12px;
-    font-size: 15px;
-}
-.empty-tip {
-    text-align: center;
-    padding: 40px 0;
-    color: #888;
-}
+    /* 公告弹窗 */
+    #noticeModal {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 999999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .noticeBox {
+        background: white;
+        max-width: 550px;
+        width: 100%;
+        padding: 40px 30px;
+        border-radius: 16px;
+        text-align: center;
+    }
+    .noticeTitle {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #c0392b;
+    }
+    .noticeText {
+        font-size: 17px;
+        margin-bottom: 28px;
+        line-height: 1.7;
+    }
+    .noticeBtn {
+        background: #1a3b5d;
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .noticeBtn:hover {
+        background: #0f3247;
+    }
 
-/* 公告弹窗 */
-#noticeModal {
-    display: flex;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 999999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.noticeBox {
-    background: white;
-    max-width: 550px;
-    width: 100%;
-    padding: 40px 30px;
-    border-radius: 16px;
-    text-align: center;
-}
-.noticeTitle {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #c0392b;
-}
-.noticeText {
-    font-size: 17px;
-    margin-bottom: 28px;
-    line-height: 1.7;
-}
-.noticeBtn {
-    background: #1a4966;
-    color: white;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.noticeBtn:hover {
-    background: #0f3247;
-}
+    /* 更新公告弹窗 */
+    #updateModal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 999999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 </style>
 </head>
 
 <body>
 
-<!-- 顶部导航栏 -->
-<div class="nav">
-    <div class="nav-left">
-        <div class="dropdown">
-            <button class="nav-btn" onclick="toggleMenu()">浏览</button>
-            <div id="menuList" class="dropdown-content">
-                <a href="#">检索</a>
-                <a href="#">图集</a>
-                <a href="#">公告</a>
-                <a href="#">更多</a>
-            </div>
-        </div>
-    </div>
-    <div class="nav-right">
-        <button class="nav-btn">检索</button>
-        <button class="nav-btn">图集</button>
-        <button class="nav-btn">公告</button>
+<!-- 背景轮播 -->
+<div class="bg-slider">
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+</div>
+
+<!-- 顶部导航 -->
+<div class="top-nav">
+    <div class="nav-title">中国佛教史籍在日本的流传与演变</div>
+    <div class="nav-btns">
+        <button class="nav-btn" onclick="goHome()">首页</button>
+        <button class="nav-btn" onclick="openGallery()">图集</button>
+        <button class="nav-btn" onclick="openUpdate()">更新公告</button>
     </div>
 </div>
 
-<!-- 首页居中搜索框 -->
+<!-- 主页 -->
 <div class="container">
-    <div class="page-title">中国佛教史籍在日本的流传与演变</div>
-    <input class="search-box" id="search" placeholder="输入书名/作者/藏地检索..." oninput="search()">
-    <div class="book-container" id="list"></div>
+    <div class="main-title">中国佛教史籍在日本的流传与演变</div>
+    <input class="search-bar" id="searchInput" placeholder="请输入书名检索..." oninput="searchBooks()">
+    <div class="result-level1" id="resultLevel1"></div>
 </div>
 
-<!-- 公告弹窗 -->
+<!-- 二级弹窗：版本列表 -->
+<div class="modal" id="versionModal">
+    <div class="modal-box">
+        <span class="modal-close" onclick="closeVersionModal()">&times;</span>
+        <div class="modal-title" id="versionTitle"></div>
+        <div id="versionList"></div>
+    </div>
+</div>
+
+<!-- 三级弹窗：详细信息 -->
+<div class="detail-modal" id="detailModal">
+    <div class="detail-box">
+        <span class="modal-close" onclick="closeDetailModal()">&times;</span>
+        <div class="detail-title" id="detailTitle"></div>
+        <div id="detailContent"></div>
+    </div>
+</div>
+
+<!-- 图集弹窗 -->
+<div class="gallery-modal" id="galleryModal">
+    <div class="gallery-box">
+        <span class="modal-close" onclick="closeGallery()">&times;</span>
+        <div class="gallery-title">日本自编佛教史籍主要载体大藏经演变与流传示意图</div>
+        <img class="gallery-img" src="https://i.imgs.ovh/2026/04/06/ZQ3zUn.png">
+        
+        <div class="gallery-title">日藏善本所见中日佛教史籍传播信息网络示意图</div>
+        <img class="gallery-img" src="https://i.imgs.ovh/2026/04/06/ZQ3AWL.png">
+        
+        <div class="gallery-title">日藏善本所见中日佛教史籍交流情况示意图</div>
+        <img class="gallery-img" src="https://i.imgs.ovh/2026/04/06/ZQ38Oe.png">
+    </div>
+</div>
+
+<!-- 初始公告弹窗 -->
 <div id="noticeModal">
     <div class="noticeBox">
         <div class="noticeTitle">数据库公告</div>
         <div class="noticeText">数据库测试中，通过搜索/点击《景德传灯录》进行体验</div>
-        <button class="noticeBtn" onclick="closeNotice()">我已知悉</button>
+        
+        <div style="margin-top:24px; border-top:1px solid #eee; padding-top:20px;">
+            <div style="font-weight:bold; color:#c0392b; margin-bottom:10px;">——更新情况——</div>
+            <div style="text-align:left; line-height:1.8;">
+                1.0.1：<br>
+                1、优化界面布局<br>
+                2、新增图集功能<br>
+                3、景德传灯录个案情况录入
+            </div>
+            <div style="text-align:right; margin-top:10px;">项目团队网页责任人 孟子杰</div>
+        </div>
+        
+        <button class="noticeBtn" onclick="closeNotice()" style="margin-top:20px;">我已知悉</button>
     </div>
 </div>
 
-<!-- 详情弹窗 -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="detail"></div>
+<!-- 更新公告弹窗 -->
+<div id="updateModal">
+    <div class="noticeBox">
+        <div class="noticeTitle">更新公告</div>
+        <div class="noticeText" style="text-align:left; line-height:2;">
+            26.4.6更新公告：<br>
+            1、优化界面布局<br>
+            2、新增图集功能<br>
+            3、景德传灯录个案情况录入
+        </div>
+        <div style="text-align:right; margin-top:10px; font-size:16px;">项目团队网页责任人 孟子杰</div>
+        <button class="noticeBtn" onclick="closeUpdate()">关闭</button>
     </div>
 </div>
 
 <script>
+// 数据
+const bookData = [
+    {
+        name: "景德传灯录",
+        author: "释道原",
+        year: "北宋景德年间",
+        versions: [
+            {
+                version: "元延祐丙辰湖州禅幽庵刊本",
+                detail: `<div class="detail-title">《景德传灯录》</div>
+<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
+<table>
+<tr><td>类型</td><td>灯录</td></tr>
+<tr><td>名称</td><td>《景德传灯录》</td></tr>
+<tr><td>别称（如有）</td><td>《佛祖同参集》</td></tr>
+<tr><td>作者</td><td>道原</td></tr>
+<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
+<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
+<tr><td>相关记载</td><td>有（链接跳转）</td></tr>
+<tr><td>参考文献</td><td>有（链接跳转）</td></tr>
+</table>
+
+<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
+
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>
+《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+
+<div class="detail-section"><strong>（二）作者信息：</strong><br>
+道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+
+<div class="detail-section"><strong>（三）成书年代：</strong><br>
+景德三年<br>
+相关史料：<br>
+据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”可知释道原《景德传灯录》于宋真宗在位第九年，即景德三年（1006）书成诣阙上进。</div>
+
+<div class="detail-section"><strong>（四）传日时间：</strong><br>
+无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>
+相关史料：<br>
+据《参天台五台山记》的记载，日本延历寺阿闍梨成寻于后三条延久四年(1072年)由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年(1081年)卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。四条天皇仁治二年(1241年)日本东福寺开山圣一国师圆尔辩圆自中国归，携回汉籍内外文献数千卷。1353年东福寺第二十八世大道一以据圣一国师藏书编纂成《普门院经论章疏语录儒书等目录》。其“宿部”着录《传灯录》一部三十册;其“张部”著录《传灯录》一部五册。</div>
+
+<div class="detail-section"><strong>（五）相关记载：</strong><br>
+1. 中日汉文大藏经收录细目</div>
+
+<table>
+<tr><td>【崇宁藏】</td><td>No.1270《景德传灯录》<br>卷数：30<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【毘卢藏】</td><td>No.1271《景德传灯录》宋道原纂<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【赵城金藏】</td><td>No.1507《景德传灯录》<br>卷数：30<br>千字文：禅-云</td></tr>
+<tr><td>【碛砂藏】</td><td>No.1292《景德传灯录》宋 道原纂<br>部别： / 册数：33 / 页数：301 / 卷数：30<br>千字文：振 1 (511)-世 10 (513)</td></tr>
+<tr><td>【普宁藏】</td><td>No.1285《景德传灯录》<br>卷数：30<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【至元录】</td><td>No.1642《景德传灯录》沙门道源纂<br>卷数：30<br>千字文：勉(701)-祗(703)</td></tr>
+<tr><td>【洪武南藏】</td><td>No.1144《景德传灯录》僧道原 纂<br>册数：183-184 / 页数：262 / 卷数：30<br>千字文：振 1 (511)-世 10 (513)</td></tr>
+<tr><td>【永乐南藏】</td><td>No.1507《景德傅灯录》<br>部别：此方撰述<br>千字文：桓(545)-匡(547)</td></tr>
+<tr><td>【永乐北藏】</td><td>No.1596《景德传灯录》宋道源纂<br>部别：此土著述 / 册数：153-154 / 页数：167 / 卷数：30<br>千字文：合-弱</td></tr>
+<tr><td>【嘉兴藏】</td><td>No.1516《景德传灯录》宋道源纂<br>部别：此土著述 / 法宝总目录经号：1515<br>千字文 / 函号：［正藏］ 合(548)-弱(550)</td></tr>
+<tr><td>【乾隆藏】</td><td>No.1584《景德传灯录》宋 道原纂<br>部别：此土著述 / 册数：136 / 页数：1 / 卷数：30<br>千字文：誉丹青</td></tr>
+<tr><td>【缩刻藏】</td><td>No.1791《景德传灯录》宋道原纂<br>部别：支那撰述-诸宗部-禅宗 / 卷数：30<br>千字文：云 5 (33)-云 6 (33)</td></tr>
+<tr><td>【卍正藏】</td><td>No.1531《景德传灯录》宋 道原纂<br>部别：此土著述 / 册数：58 / 页数：639 / 卷数：30</td></tr>
+<tr><td>【大正藏】</td><td>No.2076《景德传灯录》宋 道原纂<br>部别：史传部三 / 册数：51 / 页数：196 / 卷数：30</td></tr>
+<tr><td>【佛教大藏經】</td><td>No.1990《景德传灯录》宋 道原纂<br>部别：诸宗部三 禅宗 / 册数：70-71 / 页数：897 / 卷数：30</td></tr>
+<tr><td>【中華藏】</td><td>No.1683《景德传灯录》僧道原纂<br>册数：74 / 页数：1 / 卷数：30 / 底本：金藏广胜寺本 影印宋碛砂藏本</td></tr>
+</table>
+
+<div class="detail-section"><strong>（六）参考文献：</strong><br>
+【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>
+【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>
+【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>
+【4】脱脱等撰, 中华书局编辑部点校, 《宋史》, 北京: 中华书局, 1985年。<br>
+【5】陈垣《中国佛教史籍概论》, 上海书店出版社, 1999年, 第74页。<br>
+【6】严绍璗《日藏汉籍善本书录》, 北京:中华书局, 2007年。<br>
+【7】[日]石井修道《宋代禅籍逸书序跋考》, 《驹泽大学佛教学部论集》第8卷, 1977年。<br>
+【8】[日]释成寻原著, 白化文, 李鼎霞校点,《参天台五台山记》, 石家庄:花山文艺出版社, 2008年。</div>`
+            },
+            {
+                version: "明万历三十四年贺学礼刊本",
+                detail: `<div class="detail-title">《景德传灯录》</div>
+<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
+<table>
+<tr><td>类型</td><td>灯录</td></tr>
+<tr><td>名称</td><td>《景德传灯录》</td></tr>
+<tr><td>别称（如有）</td><td>《佛祖同参集》</td></tr>
+<tr><td>作者</td><td>道原</td></tr>
+<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
+<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
+<tr><td>相关记载</td><td>有（链接跳转）</td></tr>
+<tr><td>参考文献</td><td>有（链接跳转）</td></tr>
+</table>
+
+<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
+
+<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>
+《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
+
+<div class="detail-section"><strong>（二）作者信息：</strong><br>
+道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
+
+<div class="detail-section"><strong>（三）成书年代：</strong><br>
+景德三年<br>
+相关史料：<br>
+据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”可知释道原《景德传灯录》于宋真宗在位第九年，即景德三年（1006）书成诣阙上进。</div>
+
+<div class="detail-section"><strong>（四）传日时间：</strong><br>
+无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>
+相关史料：<br>
+据《参天台五台山记》的记载，日本延历寺阿闍梨成寻于后三条延久四年(1072年)由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年(1081年)卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。四条天皇仁治二年(1241年)日本东福寺开山圣一国师圆尔辩圆自中国归，携回汉籍内外文献数千卷。1353年东福寺第二十八世大道一以据圣一国师藏书编纂成《普门院经论章疏语录儒书等目录》。其“宿部”着录《传灯录》一部三十册;其“张部”著录《传灯录》一部五册。</div>
+
+<div class="detail-section"><strong>（五）相关记载：</strong><br>
+1. 中日汉文大藏经收录细目</div>
+
+<table>
+<tr><td>【崇宁藏】</td><td>No.1270《景德传灯录》<br>卷数：30<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【毘卢藏】</td><td>No.1271《景德传灯录》宋道原纂<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【赵城金藏】</td><td>No.1507《景德传灯录》<br>卷数：30<br>千字文：禅-云</td></tr>
+<tr><td>【碛砂藏】</td><td>No.1292《景德传灯录》宋 道原纂<br>部别： / 册数：33 / 页数：301 / 卷数：30<br>千字文：振 1 (511)-世 10 (513)</td></tr>
+<tr><td>【普宁藏】</td><td>No.1285《景德传灯录》<br>卷数：30<br>千字文：振(511)-世(513)</td></tr>
+<tr><td>【至元录】</td><td>No.1642《景德传灯录》沙门道源纂<br>卷数：30<br>千字文：勉(701)-祗(703)</td></tr>
+<tr><td>【洪武南藏】</td><td>No.1144《景德传灯录》僧道原 纂<br>册数：183-184 / 页数：262 / 卷数：30<br>千字文：振 1 (511)-世 10 (513)</td></tr>
+<tr><td>【永乐南藏】</td><td>No.1507《景德傅灯录》<br>部别：此方撰述<br>千字文：桓(545)-匡(547)</td></tr>
+<tr><td>【永乐北藏】</td><td>No.1596《景德传灯录》宋道源纂<br>部别：此土著述 / 册数：153-154 / 页数：167 / 卷数：30<br>千字文：合-弱</td></tr>
+<tr><td>【嘉兴藏】</td><td>No.1516《景德传灯录》宋道源纂<br>部别：此土著述 / 法宝总目录经号：1515<br>千字文 / 函号：［正藏］ 合(548)-弱(550)</td></tr>
+<tr><td>【乾隆藏】</td><td>No.1584《景德传灯录》宋 道原纂<br>部别：此土著述 / 册数：136 / 页数：1 / 卷数：30<br>千字文：誉丹青</td></tr>
+<tr><td>【缩刻藏】</td><td>No.1791《景德传灯录》宋道原纂<br>部别：支那撰述-诸宗部-禅宗 / 卷数：30<br>千字文：云 5 (33)-云 6 (33)</td></tr>
+<tr><td>【卍正藏】</td><td>No.1531《景德传灯录》宋 道原纂<br>部别：此土著述 / 册数：58 / 页数：639 / 卷数：30</td></tr>
+<tr><td>【大正藏】</td><td>No.2076《景德传灯录》宋 道原纂<br>部别：史传部三 / 册数：51 / 页数：196 / 卷数：30</td></tr>
+<tr><td>【佛教大藏經】</td><td>No.1990《景德传灯录》宋 道原纂<br>部别：诸宗部三 禅宗 / 册数：70-71 / 页数：897 / 卷数：30</td></tr>
+<tr><td>【中華藏】</td><td>No.1683《景德传灯录》僧道原纂<br>册数：74 / 页数：1 / 卷数：30 / 底本：金藏广胜寺本 影印宋碛砂藏本</td></tr>
+</table>
+
+<div class="detail-section"><strong>（六）参考文献：</strong><br>
+【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>
+【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>
+【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>
+【4】脱脱等撰, 中华书局编辑部点校, 《宋史》, 北京: 中华书局, 1985年。<br>
+【5】陈垣《中国佛教史籍概论》, 上海书店出版社, 1999年, 第74页。<br>
+【6】严绍璗《日藏汉籍善本书录》, 北京:中华书局, 2007年。<br>
+【7】[日]石井修道《宋代禅籍逸书序跋考》, 《驹泽大学佛教学部论集》第8卷, 1977年。<br>
+【8】[日]释成寻原著, 白化文, 李鼎霞校点,《参天台五台山记》, 石家庄:花山文艺出版社, 2008年。</div>`
+            }
+        ]
+    },
+    {
+        name: "五灯会元",
+        author: "释普济",
+        year: "南宋淳祐十二年",
+        versions: [
+            {
+                version: "明嘉靖刊本",
+                detail: "<div class='detail-title'>《五灯会元》</div><div class='detail-section'>南宋普济撰，汇综七灯录为一书。明刊本为日本五山版系统重要底本。</div>"
+            }
+        ]
+    },
+    {
+        name: "禅林僧宝传",
+        author: "释惠洪",
+        year: "北宋宣和六年",
+        versions: [
+            {
+                version: "元刊本",
+                detail: "<div class='detail-title'>《禅林僧宝传》</div><div class='detail-section'>惠洪代表作，宋代禅僧传记集大成之作。元刊本为日本中世纪禅林必读文献。</div>"
+            }
+        ]
+    }
+];
+
+let currentBook = null;
+
+// 回到首页（关闭所有弹窗、清空搜索）
+function goHome() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("resultLevel1").style.display = "none";
+    closeVersionModal();
+    closeDetailModal();
+    closeGallery();
+    closeUpdate();
+}
+
+// 检索
+function searchBooks() {
+    let kw = document.getElementById("searchInput").value.trim();
+    let res = document.getElementById("resultLevel1");
+    
+    if (!kw) {
+        res.style.display = "none";
+        return;
+    }
+    
+    let list = bookData.filter(b => 
+        b.name.includes(kw) || b.author.includes(kw)
+    );
+    
+    res.style.display = "flex";
+    res.innerHTML = list.map((b, idx) => `
+    <div class="book-item" onclick="openVersionModal(${idx})">
+        <div class="book-name">${b.name}</div>
+        <div class="book-info">著者：${b.author}｜年代：${b.year}</div>
+    </div>
+    `).join('');
+}
+
+// 打开二级弹窗：版本
+function openVersionModal(idx) {
+    currentBook = bookData[idx];
+    document.getElementById("versionTitle").innerText = currentBook.name;
+    document.getElementById("versionList").innerHTML = currentBook.versions.map((v, i) => `
+    <div class="version-item">
+        <div class="version-label">版本：${v.version}</div>
+        <button class="to-detail-btn" onclick="openDetailModal(${i})">查看详细信息</button>
+    </div>
+    `).join('');
+    document.getElementById("versionModal").style.display = "flex";
+}
+
+// 打开三级弹窗：详情
+function openDetailModal(idx) {
+    document.getElementById("detailTitle").innerText = currentBook.name;
+    document.getElementById("detailContent").innerHTML = currentBook.versions[idx].detail;
+    document.getElementById("detailModal").style.display = "flex";
+}
+
+// 关闭弹窗
+function closeVersionModal() {
+    document.getElementById("versionModal").style.display = "none";
+}
+function closeDetailModal() {
+    document.getElementById("detailModal").style.display = "none";
+}
+
+// 图集
+function openGallery() {
+    document.getElementById("galleryModal").style.display = "flex";
+}
+function closeGallery() {
+    document.getElementById("galleryModal").style.display = "none";
+}
+
 // 关闭公告
 function closeNotice() {
     document.getElementById("noticeModal").style.display = "none";
 }
 
-// 浏览菜单展开/关闭
-function toggleMenu() {
-    document.getElementById("menuList").classList.toggle("show");
+// 更新公告
+function openUpdate() {
+    document.getElementById("updateModal").style.display = "flex";
 }
-window.onclick = function(e) {
-    if (!e.target.matches('.nav-btn')) {
-        let menu = document.getElementById("menuList");
-        if (menu.classList.contains('show')) menu.classList.remove('show');
-    }
-}
-
-// 书籍数据
-const books = [
-{
-    name: "法显传",
-    detail: "《法显传》一卷",
-    author: "（东晋）释法显撰",
-    version: "宋福州开元禅寺刊本",
-    original: "原金泽文库、德富苏峰成篑堂等旧藏",
-    current: "御茶之水图书馆藏本",
-    full: "empty"
-},
-{
-    name: "大宋僧史略",
-    detail: "《大宋僧史略》三卷",
-    author: "（宋）释赞宁撰",
-    version: "宋绍兴十四年序刊本",
-    original: "原大须观音等旧藏",
-    current: "名古屋真福寺藏本",
-    full: "empty"
-},
-{
-    name: "续高僧传",
-    detail: "《续高僧传》（残本）九卷",
-    author: "（唐）释道宣撰",
-    version: "宋开元寺刊本",
-    original: "原金泽文库等旧藏",
-    current: "尊经阁文库藏本",
-    full: "empty"
-},
-{
-    name: "大慈恩寺三藏法师传",
-    detail: "《大慈恩寺三藏法师传》十卷",
-    author: "（唐）释慧立撰",
-    version: "宋开元寺版大藏经零本",
-    original: "原神田鬯庵（喜一郎）等旧藏",
-    current: "大谷大学附属图书馆藏本",
-    full: "empty"
-},
-{
-    name: "南海寄归内法传",
-    detail: "《南海寄归内法传》（残本）两卷",
-    author: "（唐）释义净撰",
-    version: "福州开元禅寺《大藏经》零本",
-    original: "原德富苏峰成篑堂等旧藏",
-    current: "御茶之水图书馆藏本",
-    full: "empty"
-},
-{
-    name: "景德传灯录",
-    detail: "《景德传灯录》三十卷",
-    author: "（宋）释道原辑",
-    version: "元延祐丙辰湖州禅幽庵僧人希渭刊本",
-    original: "原三菱财团岩崎氏家等旧藏",
-    current: "东洋文库藏本",
-    full: `<div class="detail-title">《景德传灯录》</div>
-<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
-<table>
-<tr><td>类型</td><td>灯录</td></tr>
-<tr><td>名称</td><td>《景德传灯录》</td></tr>
-<tr><td>别称</td><td>《佛祖同参集》</td></tr>
-<tr><td>作者</td><td>道原</td></tr>
-<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
-<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
-<tr><td>相关记载</td><td>有</td></tr>
-<tr><td>参考文献</td><td>有</td></tr>
-</table>
-<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
-<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年<br>相关史料：<br>据王随《传灯玉英集》后序记载，“文明武定章圣元孝皇帝在宥之九载，有江吴僧道源采七佛而下暨历世高贤尊宿言句，编成传灯录三十轴，诣阙进焉。寻诏名臣刊修臻毕，遂成钜典，模印颁行。”</div>
-<div class="detail-section"><strong>（四）传日时间：</strong><br>无准确时间，据史料有：熙宁-元丰年间、淳祐年间<br>相关史料：<br>据《参天台五台山记》记载，日本延历寺阿闍梨成寻于后三条延久四年（1072年）由杭州登陆入宋，巡游汴京、天台、五台等，并谒见宋神宗。成寻将从中国得到的经藏，委托给随行的五位弟子，陆续携带归国，本人于宋神宗元丰四年（1081年）卒于汴京开宝寺。宋神宗曾赠送成寻经藏四百十三卷，已被送回日本。其中有《景德传灯录》一部共三十三卷。</div>
-<div class="detail-section"><strong>（五）相关记载：</strong><br>1. 中日汉文大藏经收录细目</div>
-<table>
-<tr><td>【崇宁藏】</td><td>No.1270《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
-<tr><td>【毗卢藏】</td><td>No.1271《景德传灯录》宋道原纂 千字文：振(511)-世(513)</td></tr>
-<tr><td>【赵城金藏】</td><td>No.1507《景德传灯录》 卷数：30 千字文：禅-云</td></tr>
-<tr><td>【碛砂藏】</td><td>No.1292《景德传灯录》宋 道原纂 册数：33 / 页数：301 / 卷数：30</td></tr>
-<tr><td>【普宁藏】</td><td>No.1285《景德传灯录》 卷数：30 千字文：振(511)-世(513)</td></tr>
-<tr><td>【至元录】</td><td>No.1642《景德传灯录》沙门道源纂 卷数：30</td></tr>
-<tr><td>【洪武南藏】</td><td>No.1144《景德传灯录》僧道原 纂 册数：183-184 / 页数：262 / 卷数：30</td></tr>
-<tr><td>【永乐南藏】</td><td>No.1507《景德传灯录》 部别：此方撰述</td></tr>
-<tr><td>【永乐北藏】</td><td>No.1596《景德传灯录》宋道源纂 部别：此土著述 册数：153-154</td></tr>
-<tr><td>【嘉兴藏】</td><td>No.1516《景德传灯录》宋道源纂 部别：此土著述</td></tr>
-<tr><td>【乾隆藏】</td><td>No.1584《景德传灯录》宋 道原纂 部别：此土著述 册数：136</td></tr>
-<tr><td>【缩刻藏】</td><td>No.1791《景德传灯录》宋道原纂 部别：支那撰述-诸宗部-禅宗</td></tr>
-<tr><td>【卍正藏】</td><td>No.1531《景德传灯录》宋 道原纂 部别：此土著述 册数：58</td></tr>
-<tr><td>【大正藏】</td><td>No.2076《景德传灯录》宋 道原纂 部别：史传部三 册数：51</td></tr>
-<tr><td>【佛教大藏经】</td><td>No.1990《景德传灯录》宋 道原纂 部别：诸宗部三 禅宗 册数：70-71</td></tr>
-<tr><td>【中华藏】</td><td>No.1683《景德传灯录》僧道原纂 册数：74 底本：金藏广胜寺本</td></tr>
-</table>
-<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》, 台北:新文丰出版股份有限公司, 1993年, 第441页。<br>【2】志磐《佛祖统纪》, 江苏广陵古籍刻印社, 1992年。<br>【3】郭声波点校,《宋会要辑稿·蕃夷道释》, 成都: 四川大学出版社, 2010年。<br>【4】脱脱等撰,中华书局编辑部点校,《宋史》,北京:中华书局,1985年。<br>【5】陈垣《中国佛教史籍概论》,上海书店出版社,1999年,第74页。<br>【6】严绍璗《日藏汉籍善本书录》,北京:中华书局,2007年。<br>【7】[日]石井修道《宋代禅籍逸书序跋考》,《驹泽大学佛教学部论集》第8卷,1977年。<br>【8】[日]释成寻原著,白化文,李鼎霞校点,《参天台五台山记》,石家庄:花山文艺出版社,2008年。</div>`
-},
-{
-    name: "景德传灯录",
-    detail: "《景德传灯录》三十卷",
-    author: "（宋）释道原辑",
-    version: "元至正二十五年天童景德禅寺重刊本",
-    original: "原神田鬯庵（喜一郎）等旧藏",
-    current: "大谷大学附属图书馆藏本",
-    full: `<div class="detail-title">《景德传灯录》</div>
-<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
-<table>
-<tr><td>类型</td><td>灯录</td></tr>
-<tr><td>名称</td><td>《景德传灯录》</td></tr>
-<tr><td>别称</td><td>《佛祖同参集》</td></tr>
-<tr><td>作者</td><td>道原</td></tr>
-<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
-<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
-<tr><td>相关记载</td><td>有</td></tr>
-<tr><td>参考文献</td><td>有</td></tr>
-</table>
-<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
-<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年</div>
-<div class="detail-section"><strong>（四）传日时间：</strong><br>熙宁-元丰年间、淳祐年间</div>
-<div class="detail-section"><strong>（五）相关记载：</strong><br>中日汉文大藏经均有收录</div>
-<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>`
-},
-{
-    name: "禅林僧宝传",
-    detail: "《禅林僧宝传》（残本）七卷",
-    author: "（宋）释惠洪撰",
-    version: "元刊本",
-    original: "原德富苏峰成篑堂等旧藏",
-    current: "御茶之水图书馆藏本",
-    full: "empty"
-},
-{
-    name: "历代释氏资鉴",
-    detail: "《历代释氏资鉴》十二卷",
-    author: "(元)释熙仲編",
-    version: "元后至元年间刊本",
-    original: "原三菱财团岩崎氏家旧藏",
-    current: "东洋文库藏本",
-    full: "empty"
-},
-{
-    name: "六学僧传",
-    detail: "(新修科分)《六学僧传》三十卷",
-    author: "(元)释云噩撰",
-    version: "元至正二十六年胡氏刊本",
-    original: "原德富苏峰成篑堂等旧藏",
-    current: "御茶之水图书馆藏本",
-    full: "empty"
-},
-{
-    name: "宗门统要",
-    detail: "(续集)《宗门统要》十二卷",
-    author: "(元)释清茂撰",
-    version: "明刊本共十册",
-    original: "原江户时代林罗山旧藏",
-    current: "内阁文库藏本",
-    full: "empty"
-},
-{
-    name: "五灯会元",
-    detail: "《五灯会元》二十卷",
-    author: "（宋）释普济撰",
-    version: "明嘉靖年间刊本",
-    original: "原狩野氏旧藏",
-    current: "东北大学附属图书馆藏本",
-    full: "empty"
-},
-{
-    name: "景德传灯录",
-    detail: "《景德传灯录》三十卷",
-    author: "（宋）释道原辑",
-    version: "明万历三十四年贺学礼刊本",
-    original: "原枫山官库等旧藏",
-    current: "内阁文库藏本",
-    full: `<div class="detail-title">《景德传灯录》</div>
-<div class="detail-section"><strong>一、佛教史籍史籍信息一览</strong></div>
-<table>
-<tr><td>类型</td><td>灯录</td></tr>
-<tr><td>名称</td><td>《景德传灯录》</td></tr>
-<tr><td>别称</td><td>《佛祖同参集》</td></tr>
-<tr><td>作者</td><td>道原</td></tr>
-<tr><td>成书年代</td><td>景德三年（1006年）</td></tr>
-<tr><td>传日日期</td><td>熙宁-元丰、淳祐</td></tr>
-<tr><td>相关记载</td><td>有</td></tr>
-<tr><td>参考文献</td><td>有</td></tr>
-</table>
-<div class="detail-section" style="margin-top:20px"><strong>二、史籍信息细节</strong></div>
-<div class="detail-section"><strong>（一）史籍基本信息：</strong><br>《景德传灯录》由北宋苏州承天寺僧人释道原编撰，初名《佛祖同参集》，成书于宋真宗景德年间（1004—1007），为佛教禅宗首部以“灯录”命名的史传著作。道原编成后经杨亿等人勘定，宋真宗敕令编入大藏经流通。</div>
-<div class="detail-section"><strong>（二）作者信息：</strong><br>道原，北宋法眼宗禅僧，属天台德韶法系。系天台韶国师之嗣，法眼清凉益之孙。</div>
-<div class="detail-section"><strong>（三）成书年代：</strong><br>景德三年</div>
-<div class="detail-section"><strong>（四）传日时间：</strong><br>熙宁-元丰年间、淳祐年间</div>
-<div class="detail-section"><strong>（五）相关记载：</strong><br>中日汉文大藏经均有收录</div>
-<div class="detail-section"><strong>（六）参考文献：</strong><br>【1】王随《传灯玉英集·残卷》<br>【2】志磐《佛祖统纪》<br>【3】郭声波点校《宋会要辑稿·蕃夷道释》<br>【4】脱脱《宋史》<br>【5】陈垣《中国佛教史籍概论》<br>【6】严绍璗《日藏汉籍善本书录》<br>【7】[日]石井修道《宋代禅籍逸书序跋考》<br>【8】[日]释成寻《参天台五台山记》</div>`
-}
-];
-
-let currentResult = [];
-
-// 搜索功能
-function search() {
-    let kw = document.getElementById("search").value.toLowerCase().trim();
-    let list = document.getElementById("list");
-    
-    if (!kw) {
-        list.style.display = "none";
-        currentResult = [];
-        return;
-    }
-
-    let result = books.filter(b => 
-        b.name.toLowerCase().includes(kw) ||
-        b.author.toLowerCase().includes(kw) ||
-        b.version.toLowerCase().includes(kw) ||
-        b.original.toLowerCase().includes(kw) ||
-        b.current.toLowerCase().includes(kw)
-    );
-
-    currentResult = result;
-    list.style.display = "grid";
-    list.innerHTML = result.map((b, i) => `
-    <div class="book-item" onclick="openDetail(${i})">
-        <div class="book-title">${b.name}</div>
-        <div class="book-info">${b.author}｜${b.version}</div>
-    </div>
-    `).join('');
-}
-
-// 打开详情
-function openDetail(i) {
-    let b = currentResult[i];
-    let content = b.full === "empty" 
-        ? `<div class="detail-title">${b.name}</div><div class="empty-tip">内容正在完善中……</div>`
-        : `<div class="detail-title">${b.name}</div>${b.full}`;
-    document.getElementById("detail").innerHTML = content;
-    document.getElementById("modal").style.display = "flex";
-}
-
-// 关闭详情
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
+function closeUpdate() {
+    document.getElementById("updateModal").style.display = "none";
 }
 </script>
+
 </body>
 </html>
