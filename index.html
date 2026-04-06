@@ -329,8 +329,8 @@
         background: #0f3247;
     }
 
-    /* 更新公告弹窗 */
-    #updateModal {
+    /* ---------- 留言板（原更新公告） ---------- */
+    #boardModal {
         display: none;
         position: fixed;
         top: 0; left: 0;
@@ -340,6 +340,142 @@
         align-items: center;
         justify-content: center;
         padding: 20px;
+    }
+    .boardBox {
+        background: white;
+        max-width: 700px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 30px;
+        border-radius: 16px;
+        position: relative;
+    }
+    .boardTitle {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #1a3b5d;
+    }
+    .board-form {
+        margin-bottom: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .board-form label {
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .role-group {
+        display: flex;
+        gap: 15px;
+        margin: 5px 0;
+    }
+    .pwd-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        display: none;
+    }
+    .msg-input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        min-height: 80px;
+        resize: vertical;
+    }
+    .send-btn {
+        background: #1a3b5d;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .msg-list {
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .msg-item {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 8px;
+    }
+    .msg-head {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 6px;
+        color: #666;
+    }
+    .msg-role {
+        font-weight: bold;
+        color: #1a3b5d;
+    }
+    .msg-time {
+        font-size: 12px;
+    }
+    .msg-content {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* 修改密码弹窗 */
+    #changePwdModal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 1000000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .pwdBox {
+        background: white;
+        max-width: 450px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+    }
+    .pwdTitle {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #1a3b5d;
+    }
+    .pwdForm {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .pwdForm input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+    .pwdBtn {
+        background: #1a3b5d;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .pwdBtn:hover {
+        background: #0f3247;
     }
 </style>
 </head>
@@ -359,7 +495,8 @@
     <div class="nav-btns">
         <button class="nav-btn" onclick="goHome()">首页</button>
         <button class="nav-btn" onclick="openGallery()">图集</button>
-        <button class="nav-btn" onclick="openUpdate()">更新公告</button>
+        <button class="nav-btn" onclick="openBoard()">更新互动</button>
+        <button class="nav-btn" onclick="openChangePwd()">修改密码</button>
     </div>
 </div>
 
@@ -417,25 +554,47 @@
                 2、新增图集功能<br>
                 3、景德传灯录个案情况录入
             </div>
-            <div style="text-align:right; margin-top:10px;">项目团队网页责任人 孟子杰</div>
+            <div style="text-align:right; margin-top:10px;">项目团队网页管理员 孟子杰</div>
         </div>
         
         <button class="noticeBtn" onclick="closeNotice()" style="margin-top:20px;">我已知悉</button>
     </div>
 </div>
 
-<!-- 更新公告弹窗 -->
-<div id="updateModal">
-    <div class="noticeBox">
-        <div class="noticeTitle">更新公告</div>
-        <div class="noticeText" style="text-align:left; line-height:2;">
-            26.4.6更新公告：<br>
-            1、优化界面布局<br>
-            2、新增图集功能<br>
-            3、景德传灯录个案情况录入
+<!-- ---------- 留言板弹窗 ---------- -->
+<div id="boardModal">
+    <div class="boardBox">
+        <span class="modal-close" onclick="closeBoard()">&times;</span>
+        <div class="boardTitle">更新互动 · 留言板</div>
+
+        <div class="board-form">
+            <label>选择身份（必选）</label>
+            <div class="role-group">
+                <label><input type="radio" name="role" value="visitor" onclick="togglePwd()"> 访客</label>
+                <label><input type="radio" name="role" value="admin" onclick="togglePwd()"> 项目组</label>
+            </div>
+
+            <input type="password" class="pwd-input" id="pwdInput" placeholder="请输入项目组密码">
+            
+            <textarea class="msg-input" id="msgInput" placeholder="请输入留言内容..."></textarea>
+            <button class="send-btn" onclick="postMsg()">发布留言</button>
         </div>
-        <div style="text-align:right; margin-top:10px; font-size:16px;">项目团队网页责任人 孟子杰</div>
-        <button class="noticeBtn" onclick="closeUpdate()">关闭</button>
+
+        <div class="msg-list" id="msgList"></div>
+    </div>
+</div>
+
+<!-- ---------- 修改密码弹窗 ---------- -->
+<div id="changePwdModal">
+    <div class="pwdBox">
+        <span class="modal-close" onclick="closeChangePwd()" style="position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;">&times;</span>
+        <div class="pwdTitle">修改项目组密码</div>
+        <div class="pwdForm">
+            <input type="password" id="oldPwd" placeholder="请输入当前密码">
+            <input type="password" id="newPwd" placeholder="请输入新密码">
+            <input type="password" id="confirmPwd" placeholder="请确认新密码">
+            <button class="pwdBtn" onclick="saveNewPwd()">确认修改</button>
+        </div>
     </div>
 </div>
 
@@ -579,112 +738,162 @@ const bookData = [
             }
         ]
     },
-    {
-        name: "五灯会元",
-        author: "释普济",
-        year: "南宋淳祐十二年",
-        versions: [
-            {
-                version: "明嘉靖刊本",
-                detail: "<div class='detail-title'>《五灯会元》</div><div class='detail-section'>南宋普济撰，汇综七灯录为一书。明刊本为日本五山版系统重要底本。</div>"
-            }
-        ]
-    },
-    {
-        name: "禅林僧宝传",
-        author: "释惠洪",
-        year: "北宋宣和六年",
-        versions: [
-            {
-                version: "元刊本",
-                detail: "<div class='detail-title'>《禅林僧宝传》</div><div class='detail-section'>惠洪代表作，宋代禅僧传记集大成之作。元刊本为日本中世纪禅林必读文献。</div>"
-            }
-        ]
-    }
+    { name: "五灯会元", author: "释普济", year: "南宋淳祐十二年", versions: [{ version: "明嘉靖刊本", detail: "<div class='detail-title'>《五灯会元》</div><div class='detail-section'>南宋普济撰，汇综七灯录为一书。明刊本为日本五山版系统重要底本。</div>" }] },
+    { name: "禅林僧宝传", author: "释惠洪", year: "北宋宣和六年", versions: [{ version: "元刊本", detail: "<div class='detail-title'>《禅林僧宝传》</div><div class='detail-section'>惠洪代表作，宋代禅僧传记集大成之作。元刊本为日本中世纪禅林必读文献。</div>" }] }
 ];
 
 let currentBook = null;
 
-// 回到首页（关闭所有弹窗、清空搜索）
+// 首页
 function goHome() {
     document.getElementById("searchInput").value = "";
     document.getElementById("resultLevel1").style.display = "none";
-    closeVersionModal();
-    closeDetailModal();
-    closeGallery();
-    closeUpdate();
+    closeVersionModal(); closeDetailModal(); closeGallery(); closeBoard(); closeChangePwd();
 }
 
 // 检索
 function searchBooks() {
     let kw = document.getElementById("searchInput").value.trim();
     let res = document.getElementById("resultLevel1");
-    
-    if (!kw) {
-        res.style.display = "none";
-        return;
-    }
-    
-    let list = bookData.filter(b => 
-        b.name.includes(kw) || b.author.includes(kw)
-    );
-    
+    if (!kw) { res.style.display = "none"; return; }
+    let list = bookData.filter(b => b.name.includes(kw) || b.author.includes(kw));
     res.style.display = "flex";
     res.innerHTML = list.map((b, idx) => `
     <div class="book-item" onclick="openVersionModal(${idx})">
         <div class="book-name">${b.name}</div>
         <div class="book-info">著者：${b.author}｜年代：${b.year}</div>
-    </div>
-    `).join('');
+    </div>`).join('');
 }
 
-// 打开二级弹窗：版本
+// 版本弹窗
 function openVersionModal(idx) {
     currentBook = bookData[idx];
     document.getElementById("versionTitle").innerText = currentBook.name;
     document.getElementById("versionList").innerHTML = currentBook.versions.map((v, i) => `
-    <div class="version-item">
-        <div class="version-label">版本：${v.version}</div>
-        <button class="to-detail-btn" onclick="openDetailModal(${i})">查看详细信息</button>
-    </div>
-    `).join('');
+    <div class="version-item"><div class="version-label">版本：${v.version}</div>
+    <button class="to-detail-btn" onclick="openDetailModal(${i})">查看详细信息</button></div>`).join('');
     document.getElementById("versionModal").style.display = "flex";
 }
+function closeVersionModal() { document.getElementById("versionModal").style.display = "none"; }
 
-// 打开三级弹窗：详情
+// 详情弹窗
 function openDetailModal(idx) {
     document.getElementById("detailTitle").innerText = currentBook.name;
     document.getElementById("detailContent").innerHTML = currentBook.versions[idx].detail;
     document.getElementById("detailModal").style.display = "flex";
 }
-
-// 关闭弹窗
-function closeVersionModal() {
-    document.getElementById("versionModal").style.display = "none";
-}
-function closeDetailModal() {
-    document.getElementById("detailModal").style.display = "none";
-}
+function closeDetailModal() { document.getElementById("detailModal").style.display = "none"; }
 
 // 图集
-function openGallery() {
-    document.getElementById("galleryModal").style.display = "flex";
+function openGallery() { document.getElementById("galleryModal").style.display = "flex"; }
+function closeGallery() { document.getElementById("galleryModal").style.display = "none"; }
+
+// 公告
+function closeNotice() { document.getElementById("noticeModal").style.display = "none"; }
+
+// ==================== 留言板功能 ====================
+function openBoard() {
+    document.getElementById("boardModal").style.display = "flex";
+    renderMsgs();
 }
-function closeGallery() {
-    document.getElementById("galleryModal").style.display = "none";
+function closeBoard() { document.getElementById("boardModal").style.display = "none"; }
+
+// 密码框显示/隐藏
+function togglePwd() {
+    let isAdmin = document.querySelector('input[name="role"][value="admin"]').checked;
+    document.getElementById("pwdInput").style.display = isAdmin ? "block" : "none";
 }
 
-// 关闭公告
-function closeNotice() {
-    document.getElementById("noticeModal").style.display = "none";
+// 获取当前管理员密码
+function getAdminPwd() {
+    return localStorage.getItem("adminPassword") || "100001";
 }
 
-// 更新公告
-function openUpdate() {
-    document.getElementById("updateModal").style.display = "flex";
+// 发布留言
+function postMsg() {
+    const roleSel = document.querySelector('input[name="role"]:checked');
+    const pwd = document.getElementById("pwdInput").value.trim();
+    const content = document.getElementById("msgInput").value.trim();
+
+    if (!roleSel) { alert("请选择身份！"); return; }
+    if (!content) { alert("请输入留言内容！"); return; }
+
+    const role = roleSel.value;
+    const roleName = role === "admin" ? "项目组" : "访客";
+
+    // 项目组验证密码
+    if (role === "admin" && pwd !== getAdminPwd()) {
+        alert("项目组密码错误！");
+        return;
+    }
+
+    const now = new Date();
+    const timeStr = now.getFullYear() + "-" + String(now.getMonth()+1).padStart(2,0) + "-" + String(now.getDate()).padStart(2,0) 
+        + " " + String(now.getHours()).padStart(2,0) + ":" + String(now.getMinutes()).padStart(2,0);
+
+    const msg = { roleName, content, time: timeStr };
+
+    // 保存到本地
+    let msgs = JSON.parse(localStorage.getItem("msgs") || "[]");
+    msgs.unshift(msg);
+    localStorage.setItem("msgs", JSON.stringify(msgs));
+
+    // 清空
+    document.getElementById("msgInput").value = "";
+    renderMsgs();
 }
-function closeUpdate() {
-    document.getElementById("updateModal").style.display = "none";
+
+// 渲染留言
+function renderMsgs() {
+    const list = document.getElementById("msgList");
+    const msgs = JSON.parse(localStorage.getItem("msgs") || "[]");
+    list.innerHTML = msgs.map(m => `
+    <div class="msg-item">
+        <div class="msg-head">
+            <span class="msg-role">${m.roleName}</span>
+            <span class="msg-time">${m.time}</span>
+        </div>
+        <div class="msg-content">${m.content}</div>
+    </div>`).join('');
+}
+
+// ==================== 修改密码功能 ====================
+function openChangePwd() {
+    document.getElementById("changePwdModal").style.display = "flex";
+    document.getElementById("oldPwd").value = "";
+    document.getElementById("newPwd").value = "";
+    document.getElementById("confirmPwd").value = "";
+}
+function closeChangePwd() {
+    document.getElementById("changePwdModal").style.display = "none";
+}
+
+// 保存新密码
+function saveNewPwd() {
+    const oldPwd = document.getElementById("oldPwd").value.trim();
+    const newPwd = document.getElementById("newPwd").value.trim();
+    const confirmPwd = document.getElementById("confirmPwd").value.trim();
+
+    if (!oldPwd || !newPwd || !confirmPwd) {
+        alert("请填写完整！");
+        return;
+    }
+    if (oldPwd !== getAdminPwd()) {
+        alert("当前密码错误！");
+        return;
+    }
+    if (newPwd !== confirmPwd) {
+        alert("两次输入的新密码不一致！");
+        return;
+    }
+    if (newPwd.length < 4) {
+        alert("密码长度为6位！");
+        return;
+    }
+
+    localStorage.setItem("adminPassword", newPwd);
+    alert("密码修改成功！");
+    closeChangePwd();
 }
 </script>
 
